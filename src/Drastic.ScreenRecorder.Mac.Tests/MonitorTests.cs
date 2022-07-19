@@ -10,9 +10,10 @@ namespace Drastic.ScreenRecorder.Mac.Tests
     public class MonitorTests
     {
         [TestMethod]
-        public void EnumerateMonitors()
+        public async Task EnumerateMonitors()
         {
             var monitorEnumeration = new MonitorEnumeration();
+            var result = await monitorEnumeration.GetMonitorsAsync();
             SharedTests.MonitorEnumeration(monitorEnumeration);
         }
 
