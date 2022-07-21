@@ -2,6 +2,7 @@
 // Copyright (c) Drastic Actions. All rights reserved.
 // </copyright>
 
+using Drastic.ScreenRecorder;
 using Drastic.ScreenRecorder.Mac;
 using ScreenCaptureKit;
 

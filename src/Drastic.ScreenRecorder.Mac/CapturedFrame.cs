@@ -29,11 +29,10 @@ namespace Drastic.ScreenRecorder.Mac
                 this.Height = (int)imageBuffer.Height;
                 this.Surface = imageBuffer.GetIOSurface();
                 this.CIImage = new CIImage(imageBuffer);
-                var test = new NSBitmapImageRep(this.CIImage);
-                this.Raw = test.TiffRepresentation.ToArray();
-                this.Type = CapturedFrameType.TIFF;
             }
         }
+
+        public object Raw => this.CIImage ?? throw new NullReferenceException();
 
         public CMSampleBuffer SampleBuffer { get; }
 
@@ -50,9 +49,5 @@ namespace Drastic.ScreenRecorder.Mac
         public int Width { get; }
 
         public int Height { get; }
-
-        public byte[] Raw { get; }
-
-        public CapturedFrameType Type { get; }
     }
 }

@@ -3,6 +3,9 @@
 // </copyright>
 
 using Drastic.ScreenRecorder.Tests;
+using System.IO;
+using Windows.Graphics.Imaging;
+using Windows.Storage.Streams;
 
 namespace Drastic.ScreenRecorder.Win.Tests
 {
@@ -38,7 +41,8 @@ namespace Drastic.ScreenRecorder.Win.Tests
             if (context.Surface is IWinCaptureSurface surface)
             {
                 var session = new CaptureSession(surface);
-                await SharedTests.VerifyCaptureSession(session);
+                var frame = await SharedTests.VerifyCaptureSession(session) as CapturedFrame;
+                Assert.IsNotNull(frame?.Bitmap);
             }
             else
             {

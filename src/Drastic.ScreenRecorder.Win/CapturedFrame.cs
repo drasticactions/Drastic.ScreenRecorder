@@ -13,27 +13,17 @@ namespace Drastic.ScreenRecorder.Win
         public CapturedFrame(SoftwareBitmap bitmap)
         {
             this.Bitmap = bitmap;
-            this.Raw = this.ConvertToByteArray(bitmap);
             this.Width = bitmap.PixelWidth;
             this.Height = bitmap.PixelWidth;
-            this.Type = CapturedFrameType.BMP;
         }
 
         public int Width { get; }
 
         public int Height { get; }
 
-        public byte[] Raw { get; }
+        public object Raw => this.Bitmap;
 
         public SoftwareBitmap Bitmap { get; }
 
-        public CapturedFrameType Type { get; }
-
-        private byte[] ConvertToByteArray(SoftwareBitmap bitmap)
-        {
-            byte[] imageBytes = new byte[4 * bitmap.PixelWidth * bitmap.PixelHeight];
-            bitmap.CopyToBuffer(imageBytes.AsBuffer());
-            return imageBytes;
-        }
     }
 }

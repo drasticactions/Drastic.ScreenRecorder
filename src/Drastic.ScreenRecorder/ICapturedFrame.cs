@@ -12,15 +12,6 @@ namespace Drastic.ScreenRecorder
 
         int Height { get; }
 
-        byte[] Raw { get; }
-
-        CapturedFrameType Type { get; }
-    }
-
-    public enum CapturedFrameType
-    {
-        Unknown,
-        TIFF,
-        BMP,
+        object Raw { get; }
     }
 }

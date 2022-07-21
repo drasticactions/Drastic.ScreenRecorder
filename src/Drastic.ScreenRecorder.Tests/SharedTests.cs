@@ -50,7 +50,7 @@ namespace Drastic.ScreenRecorder.Tests
             VerifyCaptureSurface(window?.Surface);
         }
 
-        public static async Task VerifyCaptureSession(ICaptureSession session)
+        public static async Task<ICapturedFrame> VerifyCaptureSession(ICaptureSession session)
         {
             ICapturedFrame? frame = null;
 
@@ -67,6 +67,8 @@ namespace Drastic.ScreenRecorder.Tests
                 frame = e.Frame;
                 session.Stop();
             }
+
+            return frame;
         }
     }
 }
