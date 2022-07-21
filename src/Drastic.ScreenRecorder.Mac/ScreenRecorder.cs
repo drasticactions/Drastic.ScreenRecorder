@@ -53,6 +53,8 @@ namespace Drastic.ScreenRecorder.Mac
             this.Stream = new SCStream(this.Filter, this.Config, this);
         }
 
+        public EventHandler<CapturedFrameEventArgs>? CapturedFrame;
+
         /// <inheritdoc/>
         public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -63,15 +65,6 @@ namespace Drastic.ScreenRecorder.Mac
         {
             get => this.isRecording;
             set => this.SetProperty(ref this.isRecording, value);
-        }
-
-        /// <summary>
-        /// Gets or sets the newest frame.
-        /// </summary>
-        public CapturedFrame? CapturedFrame
-        {
-            get => this.frame;
-            set => this.SetProperty(ref this.frame, value);
         }
 
         /// <summary>
@@ -169,7 +162,7 @@ namespace Drastic.ScreenRecorder.Mac
 
             DispatchQueue.MainQueue.DispatchAsync(async () =>
             {
-                this.CapturedFrame = new CapturedFrame(sampleBuffer);
+                this.CapturedFrame?.Invoke(this, new CapturedFrameEventArgs(new CapturedFrame(sampleBuffer)));
             });
         }
     }

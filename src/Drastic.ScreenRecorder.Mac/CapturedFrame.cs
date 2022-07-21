@@ -2,6 +2,7 @@
 // Copyright (c) Drastic Actions. All rights reserved.
 // </copyright>
 
+using CoreImage;
 using CoreMedia;
 using CoreVideo;
 
@@ -10,7 +11,7 @@ namespace Drastic.ScreenRecorder.Mac
     /// <summary>
     /// Captured Frame.
     /// </summary>
-    public class CapturedFrame
+    public class CapturedFrame : ICapturedFrame
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="CapturedFrame"/> class.
@@ -24,7 +25,13 @@ namespace Drastic.ScreenRecorder.Mac
             using var imageBuffer = this.SampleBuffer.GetImageBuffer() as CVPixelBuffer;
             if (imageBuffer is not null)
             {
+                this.Width = (int)imageBuffer.Width;
+                this.Height = (int)imageBuffer.Height;
                 this.Surface = imageBuffer.GetIOSurface();
+                this.CIImage = new CIImage(imageBuffer);
+                var test = new NSBitmapImageRep(this.CIImage);
+                this.Raw = test.TiffRepresentation.ToArray();
+                this.Type = CapturedFrameType.TIFF;
             }
         }
 
@@ -32,10 +39,20 @@ namespace Drastic.ScreenRecorder.Mac
 
         public IOSurface.IOSurface? Surface { get; }
 
+        public CIImage? CIImage { get; }
+
         public CGRect? ContentRect { get; }
 
         public double ContentScale { get; }
 
         public double ScaleFactor { get; }
+
+        public int Width { get; }
+
+        public int Height { get; }
+
+        public byte[] Raw { get; }
+
+        public CapturedFrameType Type { get; }
     }
 }
