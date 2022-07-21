@@ -21,5 +21,6 @@ namespace Drastic.ScreenRecorder
     {
         Unknown,
         TIFF,
+        BMP,
     }
 }

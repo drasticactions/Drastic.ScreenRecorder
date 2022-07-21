@@ -39,9 +39,7 @@ namespace Drastic.ScreenRecorder.Tests
             Assert.IsNotNull(windows);
             Assert.IsTrue(windows.Count > 0);
 
-            var window = windows.First();
-
-            Assert.IsTrue(!string.IsNullOrEmpty(window.Title));
+            var window = windows.First(n => !string.IsNullOrEmpty(n.Title));
 
             return window;
         }
@@ -50,6 +48,25 @@ namespace Drastic.ScreenRecorder.Tests
         {
             Assert.IsNotNull(window?.Window);
             VerifyCaptureSurface(window?.Surface);
+        }
+
+        public static async Task VerifyCaptureSession(ICaptureSession session)
+        {
+            ICapturedFrame? frame = null;
+
+            session.OnCapturedFrame += Session_OnCapturedFrame;
+
+            session.Start();
+
+            await Task.Delay(1000);
+
+            Assert.IsNotNull(frame);
+
+            void Session_OnCapturedFrame(object? sender, CapturedFrameEventArgs e)
+            {
+                frame = e.Frame;
+                session.Stop();
+            }
         }
     }
 }

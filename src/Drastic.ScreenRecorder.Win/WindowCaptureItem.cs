@@ -7,7 +7,7 @@ using Windows.Graphics.Capture;
 
 namespace Drastic.ScreenRecorder.Win
 {
-    public class WindowCaptureItem : ICaptureSurface
+    public class WindowCaptureItem : IWinCaptureSurface
     {
         public WindowCaptureItem(WindowInfo info)
         {

@@ -26,5 +26,25 @@ namespace Drastic.ScreenRecorder.Win.Tests
             var context = new MonitorCapture(monitor);
             SharedTests.VerifyMonitorSurface(context);
         }
+
+        [TestMethod]
+        public async Task MonitorCaptureSession()
+        {
+            var monitorEnumeration = new MonitorEnumeration();
+            var monitor = SharedTests.MonitorEnumeration(monitorEnumeration) as MonitorInfo;
+            Assert.IsNotNull(monitor);
+
+            var context = new MonitorCapture(monitor);
+            if (context.Surface is IWinCaptureSurface surface)
+            {
+                var session = new CaptureSession(surface);
+                await SharedTests.VerifyCaptureSession(session);
+            }
+            else
+            {
+                Assert.Inconclusive("Failed to get IWinCaptureSurface");
+                return;
+            }
+        }
     }
 }
