@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Drastic.ScreenRecorder.Mac.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Drastic.ScreenRecorder.Tests", "Drastic.ScreenRecorder.Tests\Drastic.ScreenRecorder.Tests.csproj", "{4AD1ED80-7857-4F71-9E56-1294A1CD4276}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Drastic.ScreenRecorder.Sample.Mac", "Drastic.ScreenRecorder.Sample.Mac\Drastic.ScreenRecorder.Sample.Mac.csproj", "{E305CA55-6B12-4DB0-BE67-8F790D62B3E8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -36,5 +38,9 @@ Global
 		{4AD1ED80-7857-4F71-9E56-1294A1CD4276}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4AD1ED80-7857-4F71-9E56-1294A1CD4276}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4AD1ED80-7857-4F71-9E56-1294A1CD4276}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E305CA55-6B12-4DB0-BE67-8F790D62B3E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E305CA55-6B12-4DB0-BE67-8F790D62B3E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E305CA55-6B12-4DB0-BE67-8F790D62B3E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E305CA55-6B12-4DB0-BE67-8F790D62B3E8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

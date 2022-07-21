@@ -21,6 +21,9 @@ namespace Drastic.ScreenRecorder.Mac
             this.WorkArea = new Rectangle(0, 0, (int)display.Width, (int)display.Height);
             this.DeviceName = display.DisplayId.ToString();
             this.Display = display;
+
+            // TODO: Is that right?
+            this.IsPrimary = display.DisplayId == 1;
         }
 
         /// <inheritdoc/>
