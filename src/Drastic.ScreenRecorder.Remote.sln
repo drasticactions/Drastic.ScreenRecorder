@@ -1,0 +1,49 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.32719.60
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Drastic.ScreenRecorder.Remote", "Drastic.ScreenRecorder.Remote\Drastic.ScreenRecorder.Remote.csproj", "{A33CEAC9-C974-4744-A08B-6FEB24671757}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Drastic.ScreenRecorder", "Drastic.ScreenRecorder\Drastic.ScreenRecorder.csproj", "{FE63360F-D316-4040-A8B1-FD4CD0BA5399}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Drastic.ScreenRecorder.Mac", "Drastic.ScreenRecorder.Mac\Drastic.ScreenRecorder.Mac.csproj", "{2120E0B4-EEE8-4B38-BDAC-C9B6FF5A5926}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Drastic.ScreenRecorder.Win", "Drastic.ScreenRecorder.Win\Drastic.ScreenRecorder.Win.csproj", "{91CCFF13-A175-49DD-9060-98200E2717C2}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Drastic.ScreenRecorder.Remote.Win.Tests", "Drastic.ScreenRecorder.Remote.Win.Tests\Drastic.ScreenRecorder.Remote.Win.Tests.csproj", "{0AC5AFEB-F1D5-4860-9444-F93AE050D27F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A33CEAC9-C974-4744-A08B-6FEB24671757}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A33CEAC9-C974-4744-A08B-6FEB24671757}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A33CEAC9-C974-4744-A08B-6FEB24671757}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A33CEAC9-C974-4744-A08B-6FEB24671757}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FE63360F-D316-4040-A8B1-FD4CD0BA5399}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FE63360F-D316-4040-A8B1-FD4CD0BA5399}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FE63360F-D316-4040-A8B1-FD4CD0BA5399}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FE63360F-D316-4040-A8B1-FD4CD0BA5399}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2120E0B4-EEE8-4B38-BDAC-C9B6FF5A5926}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2120E0B4-EEE8-4B38-BDAC-C9B6FF5A5926}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2120E0B4-EEE8-4B38-BDAC-C9B6FF5A5926}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2120E0B4-EEE8-4B38-BDAC-C9B6FF5A5926}.Release|Any CPU.Build.0 = Release|Any CPU
+		{91CCFF13-A175-49DD-9060-98200E2717C2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{91CCFF13-A175-49DD-9060-98200E2717C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{91CCFF13-A175-49DD-9060-98200E2717C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{91CCFF13-A175-49DD-9060-98200E2717C2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0AC5AFEB-F1D5-4860-9444-F93AE050D27F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0AC5AFEB-F1D5-4860-9444-F93AE050D27F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0AC5AFEB-F1D5-4860-9444-F93AE050D27F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0AC5AFEB-F1D5-4860-9444-F93AE050D27F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D3CD503C-54CF-4E32-A7B3-843A3AFFC3C4}
+	EndGlobalSection
+EndGlobal
