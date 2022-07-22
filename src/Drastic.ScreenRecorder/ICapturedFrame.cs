@@ -12,6 +12,8 @@ namespace Drastic.ScreenRecorder
 
         int Height { get; }
 
+        byte[] ImageData { get; }
+
         object Raw { get; }
     }
 }

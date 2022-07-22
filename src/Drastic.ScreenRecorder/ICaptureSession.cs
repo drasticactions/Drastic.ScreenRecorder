@@ -8,6 +8,8 @@ namespace Drastic.ScreenRecorder
     {
         event EventHandler<CapturedFrameEventArgs>? OnCapturedFrame;
 
+        string Title { get; }
+
         void Start();
 
         void Stop();

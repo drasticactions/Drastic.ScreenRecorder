@@ -2,6 +2,7 @@
 // Copyright (c) Drastic Actions. All rights reserved.
 // </copyright>
 
+using Drastic.ScreenRecorder.LibJpegTurbo;
 using Drastic.ScreenRecorder.Win;
 using Drastic.Tempest;
 using Drastic.Tempest.Providers.Network;
@@ -26,7 +27,7 @@ namespace Drastic.ScreenRecorder.Remote.Win.Tests
             var ips = NetworkUtils.DeviceIps().ToList();
             this.target = new Target(ips.Last(), 8888);
             var provider = new NetworkConnectionProvider(RemoteProtocol.Instance, this.target, 100);
-            this.server = new RemoteServer(new MonitorEnumeration(), new WindowEnumeration(), provider);
+            this.server = new RemoteServer(new LibJpegTurboEncoder(), new CaptureSessionFactory(), new MonitorEnumeration(), new WindowEnumeration(), provider);
             this.server.Start();
             await Task.Delay(1000);
             var connection = new NetworkClientConnection(RemoteProtocol.Instance);
@@ -39,8 +40,10 @@ namespace Drastic.ScreenRecorder.Remote.Win.Tests
         [TestCleanup]
         public async Task TearDown()
         {
-            await this.client.DisconnectAsync();
-            this.server.Stop();
+            if (this.client is not null)
+                await this.client.DisconnectAsync();
+            if (this.server is not null)
+                this.server.Stop();
         }
 
         [TestMethod]
@@ -55,6 +58,34 @@ namespace Drastic.ScreenRecorder.Remote.Win.Tests
             {
                 Assert.IsNotNull(e?.Message);
                 Assert.IsTrue(e.Message.Monitors.Any());
+                cs.Cancel();
+            }
+        }
+
+        [TestMethod]
+        public async Task CaptureMonitorSession()
+        {
+            Monitor? monitor = null;
+            var cs = new CancellationTokenSource();
+            this.client.OnRecievedListMonitorsMessage += Client_OnRecievedListMonitorsMessage;
+            this.client.OnRecievedCaptureSessionFrameMessage += Client_OnRecievedCaptureSessionFrameMessage;
+            await this.client.SendMessage(new RequestItemsMessage() { RequestedItem = RemoteMessageType.ListMonitors });
+            await Task.Delay(10000);
+            Assert.IsNotNull(monitor);
+            await this.client.SendMessage(new CaptureSessionMessage() { TargetId = monitor.DeviceName, CaptureSessionFunction = CaptureSessionFunction.Start, TargetType = TargetType.Display });
+
+            await Task.Delay(-1);
+
+            void Client_OnRecievedCaptureSessionFrameMessage(object? sender, MessageEventArgs<CaptureSessionFrameMessage> e)
+            {
+                Assert.IsNotNull(e?.Message);
+            }
+
+            void Client_OnRecievedListMonitorsMessage(object? sender, MessageEventArgs<ListMonitorsMessage> e)
+            {
+                Assert.IsNotNull(e?.Message);
+                Assert.IsTrue(e.Message.Monitors.Any());
+                monitor = e.Message.Monitors.First();
                 cs.Cancel();
             }
         }

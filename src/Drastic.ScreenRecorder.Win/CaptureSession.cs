@@ -22,12 +22,15 @@ namespace Drastic.ScreenRecorder.Win
 
         public event EventHandler<CapturedFrameEventArgs>? OnCapturedFrame;
 
-        public CaptureSession(IWinCaptureSurface captureSurface)
+        public CaptureSession(ICaptureSurface captureSurface)
         {
-            this.captureSurface = captureSurface;
-            this.item = captureSurface.GraphicsCaptureItem ?? throw new ArgumentNullException(nameof(captureSurface));
+            this.captureSurface = captureSurface as IWinCaptureSurface ?? throw new ArgumentNullException(nameof(captureSurface));
+            this.item = this.captureSurface.GraphicsCaptureItem ?? throw new ArgumentNullException(nameof(captureSurface));
             this.device = CaptureHelper.CreateDevice();
+            this.Title = captureSurface.Title;
         }
+
+        public string Title { get; }
 
         public void Start()
         {
@@ -54,14 +57,25 @@ namespace Drastic.ScreenRecorder.Win
         {
             using (var frame = sender.TryGetNextFrame())
             {
-                var sbmp = await this.CreateSoftwareBitmapFromSurface(frame.Surface);
-                this.OnCapturedFrame?.Invoke(this, new CapturedFrameEventArgs(new CapturedFrame(sbmp)));
+                using var sbmp = await this.CreateSoftwareBitmapFromSurface(frame.Surface);
+                var array = await this.EncodeImageAsync(sbmp);
+                var cf = new CapturedFrame(array, sbmp.PixelWidth, sbmp.PixelHeight);
+                this.OnCapturedFrame?.Invoke(this, new CapturedFrameEventArgs(cf));
             }
         }
 
         private async Task<SoftwareBitmap> CreateSoftwareBitmapFromSurface(IDirect3DSurface surface)
         {
             return await SoftwareBitmap.CreateCopyFromSurfaceAsync(surface);
+        }
+
+        private async Task<byte[]> EncodeImageAsync(SoftwareBitmap bitmap)
+        {
+            using MemoryStream stream = new MemoryStream();
+            BitmapEncoder encoder = await BitmapEncoder.CreateAsync(BitmapEncoder.BmpEncoderId, stream.AsRandomAccessStream());
+            encoder.SetSoftwareBitmap(bitmap);
+            await encoder.FlushAsync();
+            return stream.ToArray();
         }
     }
 }

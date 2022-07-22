@@ -10,20 +10,19 @@ namespace Drastic.ScreenRecorder.Win
 {
     public class CapturedFrame : ICapturedFrame
     {
-        public CapturedFrame(SoftwareBitmap bitmap)
+        public CapturedFrame(byte[] bitmap, int width, int height)
         {
-            this.Bitmap = bitmap;
-            this.Width = bitmap.PixelWidth;
-            this.Height = bitmap.PixelWidth;
+            this.ImageData = bitmap;
+            this.Width = width;
+            this.Height = height;
         }
 
         public int Width { get; }
 
         public int Height { get; }
 
-        public object Raw => this.Bitmap;
+        public byte[] ImageData { get; internal set; } = new byte[0];
 
-        public SoftwareBitmap Bitmap { get; }
-
+        public object Raw => this.ImageData;
     }
 }

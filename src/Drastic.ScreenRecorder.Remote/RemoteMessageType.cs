@@ -12,5 +12,7 @@ namespace Drastic.ScreenRecorder.Remote
         RequestItems = 1,
         ListMonitors = 2,
         ListWindows = 3,
+        CaptureSession = 4,
+        CaptureFrame = 5,
     }
 }

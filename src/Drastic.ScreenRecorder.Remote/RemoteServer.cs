@@ -3,6 +3,7 @@
 // </copyright>
 
 using Drastic.Tempest;
+using System.Collections.Concurrent;
 
 namespace Drastic.ScreenRecorder.Remote
 {
@@ -13,14 +14,94 @@ namespace Drastic.ScreenRecorder.Remote
 
         private IMonitorEnumeration monitorEnumeration;
         private IWindowEnumeration windowEnumeration;
+        private ICaptureSessionFactory factory;
+        private IFrameEncoder frameEncoder;
 
-        public RemoteServer(IMonitorEnumeration monitor, IWindowEnumeration window, IConnectionProvider provider)
+        private List<ConnectionCaptureSession> sessions = new List<ConnectionCaptureSession>();
+
+        public RemoteServer(IFrameEncoder frameEncoder, ICaptureSessionFactory factory, IMonitorEnumeration monitor, IWindowEnumeration window, IConnectionProvider provider)
             : base(provider, MessageTypes.Reliable)
         {
+            this.frameEncoder = frameEncoder;
+            this.factory = factory;
             this.monitorEnumeration = monitor;
             this.windowEnumeration = window;
             this.RegisterMessageHandler<RequestItemsMessage>(this.OnRequestItemsMessage);
+            this.RegisterMessageHandler<CaptureSessionMessage>(this.OnCaptureSessionMessage);
         }
+
+        private async void OnCaptureSessionMessage(MessageEventArgs<CaptureSessionMessage> obj)
+        {
+            switch (obj.Message.TargetType)
+            {
+                case TargetType.Display:
+                    await this.HandleDisplayCaptureSessionAsync(obj.Connection, obj.Message);
+                    break;
+                case TargetType.Window:
+                    await this.HandleWindowCaptureSessionAsync(obj.Connection, obj.Message);
+                    break;
+                default:
+                    // TODO: Send Error message.
+                    break;
+            }
+        }
+
+        private async Task HandleDisplayCaptureSessionAsync(IConnection connection, CaptureSessionMessage message)
+        {
+            var session = this.GetCaptureSession(connection, message);
+            if (session is null)
+            {
+                var monitor = (await this.monitorEnumeration.GetMonitorsAsync()).FirstOrDefault(n => n.DeviceName == message.TargetId);
+                if (monitor is null)
+                {
+                    // TODO: Send Error Message.
+                    return;
+                }
+
+                session = new ConnectionCaptureSession(connection, this.frameEncoder, this.factory.CreateCaptureSessionForMonitor(monitor));
+                this.sessions.Add(session);
+            }
+
+            await this.HandleCaptureSessionFunction(session, message.CaptureSessionFunction);
+        }
+
+        private async Task HandleWindowCaptureSessionAsync(IConnection connection, CaptureSessionMessage message)
+        {
+            var session = this.GetCaptureSession(connection, message);
+            if (session is null)
+            {
+                var window = (await this.windowEnumeration.GetWindowsAsync()).FirstOrDefault(n => n.Title == message.TargetId);
+                if (window is null)
+                {
+                    // TODO: Send Error Message.
+                    return;
+                }
+
+                session = new ConnectionCaptureSession(connection, this.frameEncoder, this.factory.CreateCaptureSessionForWindow(window));
+                this.sessions.Add(session);
+            }
+
+            await this.HandleCaptureSessionFunction(session, message.CaptureSessionFunction);
+        }
+
+        private async Task HandleCaptureSessionFunction(ConnectionCaptureSession session, CaptureSessionFunction function)
+        {
+            switch (function)
+            {
+                case CaptureSessionFunction.Start:
+                    await session.Start();
+                    break;
+                case CaptureSessionFunction.Stop:
+                    await session.Stop();
+                    break;
+                default:
+                    // TODO: Send Error Message.
+                    break;
+            }
+        }
+
+        private ConnectionCaptureSession? GetCaptureSession(IConnection connection, CaptureSessionMessage message)
+            => this.sessions.FirstOrDefault(n => n.Connection == connection && n.Session.Title == message.TargetId);
 
         private void OnRequestItemsMessage(MessageEventArgs<RequestItemsMessage> obj)
         {

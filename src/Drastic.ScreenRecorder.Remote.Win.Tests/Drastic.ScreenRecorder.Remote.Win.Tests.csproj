@@ -15,6 +15,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<ProjectReference Include="..\Drastic.ScreenRecorder.LibJpegTurbo\Drastic.ScreenRecorder.LibJpegTurbo.csproj" />
 		<ProjectReference Include="..\Drastic.ScreenRecorder.Remote\Drastic.ScreenRecorder.Remote.csproj" />
 		<ProjectReference Include="..\Drastic.ScreenRecorder.Win\Drastic.ScreenRecorder.Win.csproj" />
 		<ProjectReference Include="..\Drastic.ScreenRecorder\Drastic.ScreenRecorder.csproj" />

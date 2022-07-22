@@ -15,11 +15,17 @@ namespace Drastic.ScreenRecorder.Remote
         {
             this.RegisterMessageHandler<ListMonitorsMessage>(this.OnListMonitorsMessage);
             this.RegisterMessageHandler<ListWindowsMessage>(this.OnListWindowsMessage);
+            this.RegisterMessageHandler<CaptureSessionFrameMessage>(this.OnCaptureSessionFrameMessage);
         }
-        
+
+        public event EventHandler<MessageEventArgs<CaptureSessionFrameMessage>>? OnRecievedCaptureSessionFrameMessage;
+
         public event EventHandler<MessageEventArgs<ListWindowsMessage>>? OnRecievedListWindowsMessage;
 
         public event EventHandler<MessageEventArgs<ListMonitorsMessage>>? OnRecievedListMonitorsMessage;
+
+        private void OnCaptureSessionFrameMessage(MessageEventArgs<CaptureSessionFrameMessage> obj)
+            => this.OnRecievedCaptureSessionFrameMessage?.Invoke(this, obj);
 
         private void OnListMonitorsMessage(MessageEventArgs<ListMonitorsMessage> obj)
             => this.OnRecievedListMonitorsMessage?.Invoke(this, obj);
