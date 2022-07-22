@@ -48,13 +48,29 @@ namespace Drastic.ScreenRecorder.Remote.Win.Tests
         {
             var cs = new CancellationTokenSource();
             this.client.OnRecievedListMonitorsMessage += Client_OnRecievedListMonitorsMessage;
-            await this.client.SendMessage(new RequestItemsMessage() { RequestedItem = RequestItems.ListMonitors });
+            await this.client.SendMessage(new RequestItemsMessage() { RequestedItem = RemoteMessageType.ListMonitors });
             await this.FailAfterTimeout(3000, cs.Token);
 
             void Client_OnRecievedListMonitorsMessage(object? sender, MessageEventArgs<ListMonitorsMessage> e)
             {
                 Assert.IsNotNull(e?.Message);
                 Assert.IsTrue(e.Message.Monitors.Any());
+                cs.Cancel();
+            }
+        }
+
+        [TestMethod]
+        public async Task ListWindowsMessage()
+        {
+            var cs = new CancellationTokenSource();
+            this.client.OnRecievedListWindowsMessage += Client_OnRecievedListWindowsMessage;
+            await this.client.SendMessage(new RequestItemsMessage() { RequestedItem = RemoteMessageType.ListWindows });
+            await this.FailAfterTimeout(3000, cs.Token);
+
+            void Client_OnRecievedListWindowsMessage(object? sender, MessageEventArgs<ListWindowsMessage> e)
+            {
+                Assert.IsNotNull(e?.Message);
+                Assert.IsTrue(e.Message.Windows.Any());
                 cs.Cancel();
             }
         }

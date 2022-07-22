@@ -26,8 +26,11 @@ namespace Drastic.ScreenRecorder.Remote
         {
             switch (obj.Message.RequestedItem)
             {
-                case RequestItems.ListMonitors:
+                case RemoteMessageType.ListMonitors:
                     this.SendMonitorRequestListAsync(obj.Connection);
+                    break;
+                case RemoteMessageType.ListWindows:
+                    this.SendWindowsRequestListAsync(obj.Connection);
                     break;
             }
         }
@@ -58,6 +61,12 @@ namespace Drastic.ScreenRecorder.Remote
         {
             var monitors = await this.monitorEnumeration.GetMonitorsAsync();
             await connection.SendAsync(new ListMonitorsMessage() { Monitors = monitors.Select(n => new Monitor(n)) });
+        }
+
+        private async Task SendWindowsRequestListAsync(IConnection connection)
+        {
+            var windows = await this.windowEnumeration.GetWindowsAsync();
+            await connection.SendAsync(new ListWindowsMessage() { Windows = windows.Select(n => new Window(n)) });
         }
     }
 }

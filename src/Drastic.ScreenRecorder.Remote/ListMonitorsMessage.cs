@@ -46,7 +46,7 @@ namespace Drastic.ScreenRecorder.Remote
         }
     }
 
-    public class Monitor : IMonitor, ISerializable
+    public class Monitor : ISerializable
     {
         public Monitor()
         {
@@ -55,23 +55,13 @@ namespace Drastic.ScreenRecorder.Remote
         public Monitor(IMonitor monitor)
         {
             this.IsPrimary = monitor.IsPrimary;
-            this.ScreenSize = monitor.ScreenSize;
-            this.MonitorArea = monitor.MonitorArea;
-            this.WorkArea = monitor.WorkArea;
             this.DeviceName = monitor.DeviceName;
         }
 
         public bool IsPrimary { get; internal set; }
 
-        public SizeF ScreenSize { get; internal set;  }
-
-        public Rectangle MonitorArea { get; internal set; }
-
-        public Rectangle WorkArea { get; internal set; }
-
         public string DeviceName { get; internal set; }
 
-        public object RawHandler { get; internal set; }
 
         public void Deserialize(ISerializationContext context, IValueReader reader)
         {

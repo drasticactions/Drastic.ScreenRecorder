@@ -15,23 +15,16 @@ namespace Drastic.ScreenRecorder.Remote
         {
         }
 
-        public RequestItems RequestedItem { get; set; }
+        public RemoteMessageType RequestedItem { get; set; }
 
         public override void ReadPayload(ISerializationContext context, IValueReader reader)
         {
-           this.RequestedItem = (RequestItems)reader.ReadUInt16();
+           this.RequestedItem = (RemoteMessageType)reader.ReadUInt16();
         }
 
         public override void WritePayload(ISerializationContext context, IValueWriter writer)
         {
             writer.WriteUInt16((ushort)this.RequestedItem);
         }
-    }
-
-    public enum RequestItems
-        : ushort
-    {
-        Unknown = 1,
-        ListMonitors = 2,
     }
 }
