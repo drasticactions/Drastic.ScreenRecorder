@@ -49,5 +49,7 @@ namespace Drastic.ScreenRecorder.Mac
         public int Width { get; }
 
         public int Height { get; }
+
+        public byte[] ImageData => throw new NotImplementedException();
     }
 }

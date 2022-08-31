@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>netstandard2.0</TargetFramework>
+	</PropertyGroup>
+	<ItemGroup>
+		<AdditionalFiles Include="..\stylecop.json" Link="stylecop.json" />
+	</ItemGroup>
+	<ItemGroup>
+	  <ProjectReference Include="..\Drastic.ScreenRecorder\Drastic.ScreenRecorder.csproj" />
+	</ItemGroup>
+	<ItemGroup>
+	  <None Remove="Drastic.UI" />
+	  <None Remove="ViewModels\" />
+	  <None Remove="Services\" />
+	</ItemGroup>
+	<ItemGroup>
+	  <PackageReference Include="Drastic.UI" Version="1.0.1-alpha.0" />
+	</ItemGroup>
+	<ItemGroup>
+	  <Folder Include="ViewModels\" />
+	  <Folder Include="Services\" />
+	</ItemGroup>
+</Project>
